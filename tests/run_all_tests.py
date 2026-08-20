@@ -15,7 +15,13 @@ TESTS = [
 
     "tests.test_sync_persistence",
 
-    "tests.test_aios_v1_e2e"
+    "tests.test_aios_v1_e2e",
+
+"tests.test_brain_interface",
+
+"tests.test_mobile_brain_bridge",
+
+"tests.test_llm_brain"
 
 ]
 

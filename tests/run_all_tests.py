@@ -31,7 +31,9 @@ TESTS = [
 
 "tests.test_memory_classifier",
 
-"tests.test_context_builder"
+"tests.test_context_builder",
+
+"tests.test_memory_intelligence_full_chain"
 
 ]
 

@@ -23,7 +23,9 @@ TESTS = [
 
 "tests.test_llm_brain",
 
-"tests.test_provider_layer"
+"tests.test_provider_layer",
+
+"tests.test_real_provider_chain"
 
 ]
 

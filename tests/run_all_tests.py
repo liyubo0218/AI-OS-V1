@@ -29,7 +29,9 @@ TESTS = [
 
 "tests.test_memory_interface",
 
-"tests.test_memory_classifier"
+"tests.test_memory_classifier",
+
+"tests.test_context_builder"
 
 ]
 

@@ -1,47 +1,70 @@
 class Planner:
 
-    def create_plan(self, understanding):
+    def __init__(self):
+        self.plans = {}
 
-        intent = understanding.get(
-            "intent",
-            "unknown"
-        )
 
-        goal = understanding.get(
-            "goal",
-            ""
+    def create_plan(
+        self,
+        goal
+    ):
+
+        if not goal:
+            return {
+                "status": "failed",
+                "reason": "invalid_goal"
+            }
+
+        plan_id = (
+            f"plan_{len(self.plans)+1:03d}"
         )
 
         plan = {
-            "task_id": "task_001",
+            "plan_id": plan_id,
             "goal": goal,
-            "steps": [],
-            "status": "ready"
+            "steps": [
+                {
+                    "step_id": 1,
+                    "task": goal,
+                    "status": "pending"
+                }
+            ],
+            "status": "created"
         }
 
+        self.plans[plan_id] = plan
 
-        if intent == "test_system":
+        return plan
 
-            plan["steps"] = [
-                "分析任务",
-                "执行测试",
-                "返回结果"
-            ]
 
-        elif intent == "file_task":
+    def get_plan(
+        self,
+        plan_id
+    ):
 
-            plan["steps"] = [
-                "查找文件",
-                "分析文件",
-                "整理文件"
-            ]
+        return self.plans.get(
+            plan_id,
+            {
+                "status": "not_found"
+            }
+        )
 
-        else:
 
-            plan["steps"] = [
-                "分析目标",
-                "生成执行方案"
-            ]
+    def update_plan_status(
+        self,
+        plan_id,
+        status
+    ):
 
+        plan = self.plans.get(
+            plan_id
+        )
+
+        if not plan:
+            return {
+                "status": "not_found"
+            }
+
+        plan["status"] = status
 
         return plan

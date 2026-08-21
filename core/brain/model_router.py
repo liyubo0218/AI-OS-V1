@@ -1,22 +1,22 @@
-class LLMGateway:
+class ModelRouter:
 
     def __init__(
         self,
-        router=None
+        default_adapter=None
     ):
 
-        self.router = router
+        self.default_adapter = default_adapter
 
 
-    def generate(
+    def route(
         self,
         prompt,
         context=None
     ):
 
-        if self.router:
+        if self.default_adapter:
 
-            return self.router.route(
+            return self.default_adapter.generate(
                 prompt,
                 context
             )

@@ -2,10 +2,10 @@ class LLMGateway:
 
     def __init__(
         self,
-        router=None
+        adapter=None
     ):
 
-        self.router = router
+        self.adapter = adapter
 
 
     def generate(
@@ -14,9 +14,9 @@ class LLMGateway:
         context=None
     ):
 
-        if self.router:
+        if self.adapter:
 
-            return self.router.route(
+            return self.adapter.generate(
                 prompt,
                 context
             )

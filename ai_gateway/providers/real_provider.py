@@ -10,7 +10,7 @@ class RealProvider(BaseProvider):
         )
 
 
-    def generate(self, prompt):
+    def generate(self, prompt, context=None):
 
         return {
             "model": self.name,

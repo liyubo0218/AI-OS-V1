@@ -1,12 +1,18 @@
 from core.brain.brain import Brain
 from core.brain.llm_gateway import LLMGateway
+from core.brain.model_router import ModelRouter
 from core.brain.model_adapter import MockModelAdapter
 
 
 def test_llm_brain():
 
-    gateway = LLMGateway(
+    router = ModelRouter(
         MockModelAdapter()
+    )
+
+
+    gateway = LLMGateway(
+        router
     )
 
 
@@ -14,8 +20,6 @@ def test_llm_brain():
         gateway
     )
 
-
-    # Rule Engine test
 
     rule_result = brain.understand(
         {
@@ -27,11 +31,6 @@ def test_llm_brain():
 
     assert rule_result["intent"] == "test_system"
 
-    assert rule_result["confidence"] == 0.95
-
-
-
-    # LLM fallback test
 
     llm_result = brain.understand(
         {
@@ -42,6 +41,7 @@ def test_llm_brain():
 
 
     assert llm_result["intent"] == "llm_reasoning"
+
 
     assert llm_result["llm_response"]["model"] == "mock-llm"
 

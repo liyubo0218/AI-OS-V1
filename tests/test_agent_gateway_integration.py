@@ -8,7 +8,6 @@ def test_agent_gateway_integration():
     gateway = Gateway()
 
 
-    # 1. Register device
     device = gateway.register_device(
         {
             "device_id": "iphone_001",
@@ -17,13 +16,9 @@ def test_agent_gateway_integration():
         }
     )
 
-    assert (
-        device["registered"]
-        is True
-    )
+    assert device["registered"] is True
 
 
-    # 2. Agent create task
     task = agent.create_task(
         {
             "action": "capture",
@@ -33,13 +28,9 @@ def test_agent_gateway_integration():
         }
     )
 
-    assert (
-        task["status"]
-        == "created"
-    )
+    assert task["status"] == "created"
 
 
-    # 3. Gateway send request
     request = gateway.send_request(
         "iphone_001",
         {
@@ -47,13 +38,9 @@ def test_agent_gateway_integration():
         }
     )
 
-    assert (
-        request["status"]
-        == "sent"
-    )
+    assert request["status"] == "sent"
 
 
-    # 4. Device response simulation
     response = gateway.handle_response(
         {
             "request_id": request["request_id"],
@@ -62,21 +49,14 @@ def test_agent_gateway_integration():
         }
     )
 
-    assert (
-        response["processed"]
-        is True
-    )
+    assert response["processed"] is True
 
 
-    # 5. Agent execute task
     result = agent.execute_task(
         task["task_id"]
     )
 
-    assert (
-        result["status"]
-        == "completed"
-    )
+    assert result["status"] == "completed"
 
 
     print(

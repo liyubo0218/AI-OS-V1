@@ -27,7 +27,9 @@ TESTS = [
 
 "tests.test_real_provider_chain",
 
-"tests.test_memory_interface"
+"tests.test_memory_interface",
+
+"tests.test_memory_classifier"
 
 ]
 

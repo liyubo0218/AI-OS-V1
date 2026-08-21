@@ -21,7 +21,9 @@ TESTS = [
 
 "tests.test_mobile_brain_bridge",
 
-"tests.test_llm_brain"
+"tests.test_llm_brain",
+
+"tests.test_provider_layer"
 
 ]
 

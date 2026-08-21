@@ -33,7 +33,9 @@ TESTS = [
 
 "tests.test_context_builder",
 
-"tests.test_memory_intelligence_full_chain"
+"tests.test_memory_intelligence_full_chain",
+
+"tests.test_brain_memory_integration"
 
 ]
 

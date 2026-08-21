@@ -2,10 +2,10 @@ class ModelRouter:
 
     def __init__(
         self,
-        default_provider=None
+        default_adapter=None
     ):
 
-        self.default_provider = default_provider
+        self.default_adapter = default_adapter
 
 
     def route(
@@ -14,22 +14,17 @@ class ModelRouter:
         context=None
     ):
 
-        if self.default_provider:
+        if self.default_adapter:
 
-            return self.default_provider.generate(
+            return self.default_adapter.generate(
                 prompt,
                 context
             )
 
 
         return {
-
             "text": "",
-
             "model": "none",
-
             "confidence": 0,
-
             "status": "unavailable"
-
         }

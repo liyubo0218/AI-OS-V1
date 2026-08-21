@@ -25,7 +25,9 @@ TESTS = [
 
 "tests.test_provider_layer",
 
-"tests.test_real_provider_chain"
+"tests.test_real_provider_chain",
+
+"tests.test_memory_interface"
 
 ]
 

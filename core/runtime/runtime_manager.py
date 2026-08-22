@@ -1,86 +1,63 @@
+from .runtime import Runtime
+
+
 class RuntimeManager:
+    """
+    AI-OS Runtime 生命周期管理器
 
-    def __init__(self):
-        self.tasks = {}
+    负责：
+    - 创建Runtime
+    - 管理Runtime状态
+    - 提供统一运行入口
 
+    不负责：
+    - AI推理
+    - 任务执行
+    - 手机控制
+    """
 
-    def create_task(
-        self,
-        task_id,
-        source,
-        goal
+    def __init__(
+        self
     ):
-        self.tasks[task_id] = {
-            "task_id": task_id,
-            "source": source,
-            "goal": goal,
-            "state": "created",
-            "context": {},
-            "result": None
-        }
-
-        return {
-            "status": "created",
-            "task_id": task_id
-        }
+        self.runtime = None
 
 
-    def update_state(
+    def create_runtime(
         self,
-        task_id,
-        state
+        orchestrator=None
     ):
-        if task_id not in self.tasks:
-            return {
-                "status": "failed"
-            }
-
-        self.tasks[task_id]["state"] = state
-
-        return {
-            "status": "updated",
-            "current_state": state
-        }
-
-
-    def update_context(
-        self,
-        task_id,
-        context
-    ):
-        if task_id not in self.tasks:
-            return {
-                "status": "failed"
-            }
-
-        self.tasks[task_id]["context"] = context
-
-        return {
-            "status": "updated"
-        }
-
-
-    def record_result(
-        self,
-        task_id,
-        result
-    ):
-        if task_id not in self.tasks:
-            return {
-                "status": "failed"
-            }
-
-        self.tasks[task_id]["result"] = result
-
-        return {
-            "status": "recorded"
-        }
-
-
-    def get_task(
-        self,
-        task_id
-    ):
-        return self.tasks.get(
-            task_id
+        self.runtime = Runtime(
+            orchestrator
         )
+
+        return self.runtime
+
+
+    def get_runtime(
+        self
+    ):
+        return self.runtime
+
+
+    def start(
+        self
+    ):
+        if not self.runtime:
+            return {
+                "status": "error",
+                "message": "runtime unavailable"
+            }
+
+        return self.runtime.start()
+
+
+    def stop(
+        self
+    ):
+        if not self.runtime:
+            return {
+                "status": "error",
+                "message": "runtime unavailable"
+            }
+
+        return self.runtime.stop()

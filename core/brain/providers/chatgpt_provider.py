@@ -1,8 +1,8 @@
 from core.brain.providers.base_provider import BaseProvider
 
-from chatgpt_bridge.protocol import ChatGPTBridge
+from .chatgpt.protocol import ChatGPTBridge
 
-from chatgpt_bridge.request import ChatGPTRequest
+from .chatgpt.request import ChatGPTRequest
 
 
 

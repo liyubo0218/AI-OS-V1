@@ -1,4 +1,4 @@
-from ai_gateway.providers.base_provider import BaseProvider
+from core.brain.providers.base_provider import BaseProvider
 
 
 class RealProvider(BaseProvider):

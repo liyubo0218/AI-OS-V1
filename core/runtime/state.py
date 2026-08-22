@@ -1,41 +1,58 @@
 class RuntimeState:
+    """
+    AI-OS Runtime 状态模型
 
-    IDLE = "IDLE"
-    RUNNING = "RUNNING"
-    COMPLETED = "COMPLETED"
-    FAILED = "FAILED"
+    负责：
+    - 保存系统运行状态
+    - 提供状态读取
 
-    VALID_STATES = {
-        IDLE,
-        RUNNING,
-        COMPLETED,
-        FAILED
-    }
+    不负责：
+    - 用户记忆
+    - AI推理
+    - 任务管理
+    """
 
-
-    def __init__(self):
-        self.current = self.IDLE
-
-
-    def set_state(
-        self,
-        state
+    def __init__(
+        self
     ):
-        if state not in self.VALID_STATES:
-            self.current = self.FAILED
-
-            return {
-                "status": "failed",
-                "state": self.current
-            }
-
-        self.current = state
-
-        return {
-            "status": "updated",
-            "state": self.current
+        self.state = {
+            "status": "stopped",
+            "current_task": None,
+            "last_request": None,
+            "last_result": None
         }
 
 
-    def get_state(self):
-        return self.current
+    def update(
+        self,
+        key,
+        value
+    ):
+        self.state[key] = value
+
+        return True
+
+
+    def get(
+        self,
+        key=None
+    ):
+        if key:
+            return self.state.get(
+                key
+            )
+
+        return self.state
+
+
+    def reset(
+        self
+    ):
+        self.state = {
+            "status": "stopped",
+            "current_task": None,
+            "last_request": None,
+            "last_result": None
+        }
+
+        return True

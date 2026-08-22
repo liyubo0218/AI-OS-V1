@@ -1,35 +1,50 @@
-from memory.memory_manager import MemoryManager
+from core.memory_v2 import MemoryEngine
 
 
-memory = MemoryManager()
+def test_memory_v2():
 
 
-saved = memory.save_memory(
-    "memory_task_001",
-    "task_history",
-    "完成任务:帮我测试AI-OS"
-)
+    memory = MemoryEngine()
 
 
-print("Memory Manager V2 Ready")
-
-
-print("Saved:")
-
-print(saved)
-
-
-print("All Memory:")
-
-print(
-    memory.get_all_memory()
-)
-
-
-print("Search:")
-
-print(
-    memory.search_memory(
-        "AI-OS"
+    memory.save_preference(
+        "user001",
+        {
+            "style": "simple"
+        }
     )
-)
+
+
+    preference = memory.get_preference(
+        "user001"
+    )
+
+
+    assert preference["style"] == "simple"
+
+
+
+    memory.save_history(
+        {
+            "task": "meeting reminder",
+            "result": "completed"
+        }
+    )
+
+
+    result = memory.search(
+        "meeting"
+    )
+
+
+    assert len(result) == 1
+
+
+    print(
+        "Memory 2.0 PASS"
+    )
+
+
+if __name__ == "__main__":
+
+    test_memory_v2()

@@ -35,7 +35,9 @@ TESTS = [
 
 "tests.test_memory_intelligence_full_chain",
 
-"tests.test_brain_memory_integration"
+"tests.test_brain_memory_integration",
+
+"tests.test_runtime_core"
 
 ]
 
@@ -108,4 +110,3 @@ else:
     print(
         "===== ALL TESTS PASSED ====="
     )
-

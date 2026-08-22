@@ -1,4 +1,5 @@
 from .context.brain_adapter import BrainAdapter
+from .memory_adapter import MemoryContextAdapter
 
 
 class Brain:
@@ -10,6 +11,7 @@ class Brain:
 
         self.llm_gateway = llm_gateway
         self.context_adapter = BrainAdapter()
+        self.memory_adapter = MemoryContextAdapter()
 
 
     def understand(
@@ -25,13 +27,18 @@ class Brain:
         context_result = self.context_adapter.understand(
             user_input
         )
+        memory_context = self.memory_adapter.get_memory_context(
+            user_input
+        )
 
 
         result = {
             "intent": "unknown",
             "goal": user_input,
             "entities": [],
-            "confidence": 0.5
+            "confidence": 0.5,
+            "context": context_result,
+            "memory_context": memory_context
         }
 
 
@@ -97,7 +104,11 @@ class Brain:
 
 
                 "llm_response":
-                response
+                response,
+                "context":
+                context_result,
+                "memory_context":
+                memory_context
 
             }
 

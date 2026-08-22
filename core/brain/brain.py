@@ -1,3 +1,6 @@
+from .context.brain_adapter import BrainAdapter
+
+
 class Brain:
 
     def __init__(
@@ -6,6 +9,7 @@ class Brain:
     ):
 
         self.llm_gateway = llm_gateway
+        self.context_adapter = BrainAdapter()
 
 
     def understand(
@@ -16,6 +20,10 @@ class Brain:
         user_input = context.get(
             "user_input",
             ""
+        )
+
+        context_result = self.context_adapter.understand(
+            user_input
         )
 
 

@@ -1,7 +1,7 @@
 from core.brain.context.brain_adapter import BrainAdapter
 
 
-def test_brain_enhancement():
+def test_brain_context():
 
 
     brain = BrainAdapter()
@@ -26,4 +26,4 @@ def test_brain_enhancement():
 
 if __name__ == "__main__":
 
-    test_brain_enhancement()
+    test_brain_context()

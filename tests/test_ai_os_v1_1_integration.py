@@ -1,4 +1,4 @@
-from core.brain_enhancement import BrainAdapter
+from core.brain.context.brain_adapter import BrainAdapter
 from core.memory_v2 import MemoryEngine
 from core.planner import Planner
 from core.executor import Executor

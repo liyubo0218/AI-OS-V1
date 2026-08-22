@@ -1,4 +1,4 @@
-from core.brain_enhancement import BrainAdapter
+from core.brain.context.brain_adapter import BrainAdapter
 
 
 def test_brain_enhancement():

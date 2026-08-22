@@ -1,52 +1,46 @@
-from mobile_gateway.gateway import MobileGateway
-
-from core.context.context_manager import ContextManager
-from core.brain.brain import Brain
-from core.planner.planner import Planner
-from core.orchestrator.orchestrator import Orchestrator
-
-from execution.execution_engine import ExecutionEngine
-
-from agents.agent_manager import AgentManager
-from agents.demo_agent import DemoAgent
-
-from memory.memory_manager import MemoryManager
-from security.security_manager import SecurityManager
-
-
-agent_manager = AgentManager()
-
-agent_manager.register_agent(
-    DemoAgent()
+from gateway.mobile import (
+    MobileServer,
+    RequestModel
 )
 
 
-orchestrator = Orchestrator(
-    ContextManager(),
-    Brain(),
-    Planner(),
-    SecurityManager(),
-    ExecutionEngine(),
-    agent_manager,
-    MemoryManager()
-)
+class MockRuntime:
 
 
-gateway = MobileGateway(
-    orchestrator
-)
+    def execute(
+        self,
+        data
+    ):
+
+        return {
+            "status": "ok",
+            "data": data
+        }
 
 
-request = {
-    "user_input": "帮我测试AI-OS"
-}
+def test_gateway():
 
 
-result = gateway.handle_request(
-    request
-)
+    server = MobileServer(
+        MockRuntime()
+    )
 
 
-print("Mobile Gateway Ready")
+    result = server.receive(
+        RequestModel(
+            "hello"
+        )
+    )
 
-print(result)
+
+    assert result["status"] == "ok"
+
+
+    print(
+        "Mobile Gateway PASS"
+    )
+
+
+if __name__ == "__main__":
+
+    test_gateway()

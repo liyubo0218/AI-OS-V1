@@ -30,12 +30,27 @@ class SecretaryCore:
 
     def process(
         self,
-        request
+        request,
+        context=None
     ):
-        user_input = request.get(
-            "user_input",
-            ""
-        )
+
+        if isinstance(request, dict):
+
+            user_input = request.get(
+                "user_input",
+                ""
+            )
+
+            memory_context = request.get(
+                "memory",
+                {}
+            )
+
+        else:
+
+            user_input = request
+
+            memory_context = context or {}
 
         result = {
             "status": "success",

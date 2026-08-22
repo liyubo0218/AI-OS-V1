@@ -1,4 +1,5 @@
 from .task import Task
+from core.event.event import Event
 
 
 class TaskManager:
@@ -18,9 +19,11 @@ class TaskManager:
     """
 
     def __init__(
-        self
+        self,
+        event_bus=None
     ):
         self.tasks = []
+        self.event_bus = event_bus
 
 
     def create_task(
@@ -38,6 +41,17 @@ class TaskManager:
         self.tasks.append(
             task
         )
+
+
+        if self.event_bus:
+            event = Event(
+                "task.created",
+                task.to_dict()
+            )
+
+            self.event_bus.publish(
+                event
+            )
 
         return task
 

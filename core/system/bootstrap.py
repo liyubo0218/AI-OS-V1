@@ -13,6 +13,7 @@ from core.orchestrator.orchestrator import Orchestrator
 
 from core.runtime.runtime import Runtime
 from core.interface.api import AIOSAPI
+from core.event.event_bus import EventBus
 
 
 class Bootstrap:
@@ -43,7 +44,9 @@ class Bootstrap:
             brain=brain
         )
 
-        task_manager = TaskManager()
+        task_manager = TaskManager(
+            event_bus=event_bus
+        )
 
         device = MobileAdapter()
 
@@ -69,6 +72,7 @@ class Bootstrap:
 
         self.system = {
             "memory": memory,
+            "event_bus": event_bus,
             "brain": brain,
             "secretary": secretary,
             "task_manager": task_manager,

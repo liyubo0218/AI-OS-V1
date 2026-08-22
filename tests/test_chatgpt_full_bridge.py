@@ -1,4 +1,4 @@
-from ai_gateway.providers.chatgpt_provider import ChatGPTProvider
+from core.brain.providers.chatgpt_provider import ChatGPTProvider
 
 
 

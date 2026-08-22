@@ -1,4 +1,4 @@
-from ai_gateway.providers.cloud_provider import CloudProvider
+from core.brain.providers.cloud.cloud_provider import CloudProvider
 
 
 provider = CloudProvider()

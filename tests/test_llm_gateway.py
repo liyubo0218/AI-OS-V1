@@ -1,4 +1,4 @@
-from ai_gateway.llm_gateway import LLMGateway
+from core.brain.llm_gateway import LLMGateway
 
 
 gateway = LLMGateway()

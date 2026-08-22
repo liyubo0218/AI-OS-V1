@@ -16,10 +16,10 @@ from memory.memory_manager import MemoryManager
 from goal_monitor.monitor import GoalMonitor
 
 
-from ai_gateway.router import ModelRouter
-from ai_gateway.llm_gateway import LLMGateway
+from core.brain.model_router import ModelRouter
+from core.brain.llm_gateway import LLMGateway
 
-from ai_gateway.providers.chatgpt_provider import ChatGPTProvider
+from core.brain.providers.chatgpt_provider import ChatGPTProvider
 
 
 

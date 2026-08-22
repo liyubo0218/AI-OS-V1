@@ -1,10 +1,10 @@
-from ai_gateway.router import ModelRouter
+from core.brain.model_router import ModelRouter
 
-from ai_gateway.llm_gateway import LLMGateway
+from core.brain.llm_gateway import LLMGateway
 
-from ai_gateway.providers.mock_provider import MockProvider
+from core.brain.providers.mock_provider import MockProvider
 
-from ai_gateway.providers.real_provider import RealProvider
+from core.brain.providers.real_provider import RealProvider
 
 
 router = ModelRouter()

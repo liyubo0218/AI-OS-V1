@@ -1,6 +1,6 @@
 from core.brain.llm_gateway import LLMGateway
 from core.brain.model_router import ModelRouter
-from ai_gateway.providers.real_provider import RealProvider
+from core.brain.providers.real_provider import RealProvider
 
 
 def test_real_provider_chain():

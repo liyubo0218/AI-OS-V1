@@ -1,29 +1,26 @@
-from core.planner.planner import Planner
+from core.planner import Planner
 
 
-planner = Planner()
+def test_planner():
+
+    planner = Planner()
 
 
-understanding = {
-    "intent": "test_system",
-    "goal": "帮我测试AI-OS"
-}
+    result = planner.create_plan(
+        "提醒我明天开会"
+    )
 
 
-plan = planner.create_plan(
-    understanding
-)
+    assert len(
+        result["workflow"]["steps"]
+    ) > 0
 
 
-print("Planner Ready")
+    print(
+        "Planner PASS"
+    )
 
-print("Goal:")
-print(plan["goal"])
 
-print("Plan:")
+if __name__ == "__main__":
 
-for step in plan["steps"]:
-    print(step)
-
-print("Status:")
-print(plan["status"])
+    test_planner()

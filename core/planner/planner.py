@@ -1,7 +1,7 @@
-class Planner:
+from .workflow import Workflow
 
-    def __init__(self):
-        self.plans = {}
+
+class Planner:
 
 
     def create_plan(
@@ -9,62 +9,32 @@ class Planner:
         goal
     ):
 
-        if not goal:
-            return {
-                "status": "failed",
-                "reason": "invalid_goal"
-            }
+        workflow = Workflow()
 
-        plan_id = (
-            f"plan_{len(self.plans)+1:03d}"
-        )
 
-        plan = {
-            "plan_id": plan_id,
+        if "提醒" in goal:
+
+            workflow.add_step(
+                "create_reminder"
+            )
+
+            workflow.add_step(
+                "notify_user"
+            )
+
+
+        else:
+
+            workflow.add_step(
+                "execute_task"
+            )
+
+
+        return {
+
             "goal": goal,
-            "steps": [
-                {
-                    "step_id": 1,
-                    "task": goal,
-                    "status": "pending"
-                }
-            ],
-            "status": "created"
+
+            "workflow":
+                workflow.to_dict()
+
         }
-
-        self.plans[plan_id] = plan
-
-        return plan
-
-
-    def get_plan(
-        self,
-        plan_id
-    ):
-
-        return self.plans.get(
-            plan_id,
-            {
-                "status": "not_found"
-            }
-        )
-
-
-    def update_plan_status(
-        self,
-        plan_id,
-        status
-    ):
-
-        plan = self.plans.get(
-            plan_id
-        )
-
-        if not plan:
-            return {
-                "status": "not_found"
-            }
-
-        plan["status"] = status
-
-        return plan

@@ -1,21 +1,21 @@
 from ai_gateway.providers.base_provider import BaseProvider
 
 
-class MockProvider(BaseProvider):
+class RealProvider(BaseProvider):
 
     def __init__(self):
 
         super().__init__(
-            "mock-model"
+            "real-model"
         )
 
 
-    def generate(self, prompt):
+    def generate(self, prompt, context=None):
 
         return {
             "model": self.name,
             "response": (
-                "模型响应: "
+                "Real Provider 收到请求: "
                 + prompt
             )
         }

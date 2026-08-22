@@ -1,11 +1,9 @@
 class BaseProvider:
 
-    def generate(
-        self,
-        prompt,
-        context=None
-    ):
+    def __init__(self, name):
+        self.name = name
 
-        raise NotImplementedError(
-            "Provider must implement generate()"
-        )
+
+    def generate(self, prompt):
+
+        raise NotImplementedError

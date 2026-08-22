@@ -2,7 +2,7 @@ from mobile_gateway.aios_adapter import MobileAIOSAdapter
 
 from core.aios import AIOS
 
-from chatgpt_bridge.task_adapter import ChatGPTTaskAdapter
+from core.agent.task_adapter import ChatGPTTaskAdapter
 
 
 from device.identity import DeviceIdentity

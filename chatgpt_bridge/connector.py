@@ -1,4 +1,4 @@
-from chatgpt_bridge.response import ChatGPTResponse
+from core.brain.providers.chatgpt.response import ChatGPTResponse
 
 
 class ChatGPTConnector:

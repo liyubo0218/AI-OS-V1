@@ -1,4 +1,4 @@
-from chatgpt_bridge.session import ChatGPTSessionManager
+from core.runtime.session import ChatGPTSessionManager
 
 from core.brain.providers.chatgpt.mock_connector import MockConnector
 

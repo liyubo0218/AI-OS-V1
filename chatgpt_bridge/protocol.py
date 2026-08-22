@@ -1,10 +1,10 @@
-from chatgpt_bridge.permission import ChatGPTPermission
+from core.brain.providers.chatgpt.permission import ChatGPTPermission
 
-from chatgpt_bridge.mock_connector import MockConnector
+from core.brain.providers.chatgpt.mock_connector import MockConnector
 
-from chatgpt_bridge.real_connector import RealConnector
+from core.brain.providers.chatgpt.real_connector import RealConnector
 
-from chatgpt_bridge.config import ChatGPTBridgeConfig
+from core.brain.providers.chatgpt.config import ChatGPTBridgeConfig
 
 
 

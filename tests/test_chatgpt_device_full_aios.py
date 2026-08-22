@@ -1,6 +1,6 @@
-from chatgpt_bridge.task_adapter import ChatGPTTaskAdapter
+from core.agent.task_adapter import ChatGPTTaskAdapter
 
-from chatgpt_bridge.full_workflow import ChatGPTDeviceWorkflow
+from core.workflow.full_workflow import ChatGPTDeviceWorkflow
 
 
 

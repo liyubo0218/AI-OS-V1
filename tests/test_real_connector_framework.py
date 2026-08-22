@@ -1,8 +1,8 @@
 from chatgpt_bridge.session import ChatGPTSessionManager
 
-from chatgpt_bridge.mock_connector import MockConnector
+from core.brain.providers.chatgpt.mock_connector import MockConnector
 
-from chatgpt_bridge.request import ChatGPTRequest
+from core.brain.providers.chatgpt.request import ChatGPTRequest
 
 
 

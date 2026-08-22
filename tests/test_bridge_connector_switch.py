@@ -1,8 +1,8 @@
-from chatgpt_bridge.protocol import ChatGPTBridge
+from core.brain.providers.chatgpt.protocol import ChatGPTBridge
 
-from chatgpt_bridge.config import ChatGPTBridgeConfig
+from core.brain.providers.chatgpt.config import ChatGPTBridgeConfig
 
-from chatgpt_bridge.request import ChatGPTRequest
+from core.brain.providers.chatgpt.request import ChatGPTRequest
 
 
 

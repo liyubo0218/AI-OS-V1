@@ -1,38 +1,37 @@
-from goal_monitor.monitor import GoalMonitor
+from core.goal import GoalMonitor
 
 
-monitor = GoalMonitor()
+def test_goal_monitor():
 
 
-created = monitor.create_goal(
-    "goal_001",
-    "帮我测试AI-OS"
-)
+    monitor = GoalMonitor()
 
 
-print("Goal Monitor Ready")
-
-
-print("Created:")
-
-print(created)
-
-
-updated = monitor.update_status(
-    "goal_001",
-    "completed"
-)
-
-
-print("Updated:")
-
-print(updated)
-
-
-print("Query:")
-
-print(
-    monitor.get_goal(
-        "goal_001"
+    monitor.create_goal(
+        "001",
+        "完成测试任务"
     )
-)
+
+
+    monitor.update_goal(
+        "001",
+        "completed"
+    )
+
+
+    result = monitor.get_goal(
+        "001"
+    )
+
+
+    assert result["status"] == "completed"
+
+
+    print(
+        "Goal Monitor PASS"
+    )
+
+
+if __name__ == "__main__":
+
+    test_goal_monitor()

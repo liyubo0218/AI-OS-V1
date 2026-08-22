@@ -1,120 +1,67 @@
-from core.runtime.registry import RuntimeRegistry
-from core.runtime.state import RuntimeState
+class Runtime:
+    """
+    AI-OS Runtime运行管理层
 
+    负责：
+    - 系统启动
+    - 管理运行状态
+    - 统一请求入口
 
-class RuntimeCore:
+    不负责：
+    - AI推理
+    - 手机控制
+    - 任务规划
+    """
 
     def __init__(
         self,
-        registry=None,
-        state=None
+        orchestrator=None
     ):
-        self.registry = registry or RuntimeRegistry()
-        self.state = state or RuntimeState()
+        self.orchestrator = orchestrator
+        self.status = "stopped"
 
 
-    def register(
+    def start(
+        self
+    ):
+        self.status = "running"
+
+        return {
+            "status": self.status
+        }
+
+
+    def stop(
+        self
+    ):
+        self.status = "stopped"
+
+        return {
+            "status": self.status
+        }
+
+
+    def handle(
         self,
-        name,
-        module
+        user_input
     ):
-        return self.registry.register(
-            name,
-            module
-        )
+        if self.status != "running":
+            self.start()
 
-
-    def run(
-        self,
-        module_name,
-        task
-    ):
-        self.state.set_state(
-            RuntimeState.RUNNING
-        )
-
-        module = self.registry.get(
-            module_name
-        )
-
-        if module is None:
-            self.state.set_state(
-                RuntimeState.FAILED
-            )
-
+        if not self.orchestrator:
             return {
-                "status": "failed",
-                "state": self.state.get_state(),
-                "module": module_name,
-                "task": task,
-                "error": "module not registered"
+                "status": "error",
+                "message": "orchestrator unavailable"
             }
 
-        try:
-            result = self._execute_module(
-                module,
-                task
-            )
-
-            self.state.set_state(
-                RuntimeState.COMPLETED
-            )
-
-            return {
-                "status": "completed",
-                "state": self.state.get_state(),
-                "module": module_name,
-                "task": task,
-                "result": result
-            }
-
-        except Exception as error:
-            self.state.set_state(
-                RuntimeState.FAILED
-            )
-
-            return {
-                "status": "failed",
-                "state": self.state.get_state(),
-                "module": module_name,
-                "task": task,
-                "error": str(error)
-            }
-
-
-    def execute(
-        self,
-        module_name,
-        task
-    ):
-        return self.run(
-            module_name,
-            task
+        return self.orchestrator.process(
+            user_input
         )
 
 
-    def get_state(self):
-        return self.state.get_state()
-
-
-    def _execute_module(
-        self,
-        module,
-        task
+    def get_status(
+        self
     ):
-        if isinstance(module, type):
-            module = module()
-
-        if hasattr(module, "execute"):
-            return module.execute(
-                task
-            )
-
-        if callable(module):
-            return module(
-                task
-            )
-
-        raise TypeError(
-            "module must be callable or expose execute"
-        )
+        return {
+            "status": self.status
+        }

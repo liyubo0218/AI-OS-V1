@@ -71,3 +71,7 @@ class UserProfile:
         self
     ):
         return self.profile
+
+# AI-OS compatibility alias
+# 保持旧接口兼容
+Profile = UserProfile

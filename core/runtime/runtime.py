@@ -65,3 +65,7 @@ class Runtime:
         return {
             "status": self.status
         }
+
+# AI-OS compatibility alias
+# 保持旧接口兼容
+RuntimeCore = Runtime

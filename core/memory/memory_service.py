@@ -88,6 +88,14 @@ class MemoryService:
         return results
 
 
+    def search(
+        self,
+        keyword=""
+    ):
+        return self.recall(
+            keyword
+        )
+
     def get_context(
         self,
         query=""

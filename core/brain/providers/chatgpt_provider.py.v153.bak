@@ -18,8 +18,7 @@ class ChatGPTProvider(BaseProvider):
     ):
         request = ChatGPTRequest(
             "llm_request_001",
-            prompt,
-            context
+            prompt
         )
 
         result = self.bridge.chat(

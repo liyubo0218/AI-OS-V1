@@ -6,7 +6,6 @@ class ContextBuilder:
     - 汇总用户输入
     - 融合记忆
     - 融合任务状态
-    - 融合目标状态
     - 生成LLM上下文
 
     不负责：
@@ -19,6 +18,7 @@ class ContextBuilder:
         memory_service=None
     ):
         self.memory_service = memory_service
+
 
     def _get_memory(
         self,
@@ -37,19 +37,18 @@ class ContextBuilder:
 
         return {}
 
+
     def build(
         self,
         user_input,
         memory=None,
         task=None,
-        goal=None,
         state=None
     ):
         context = {
             "user_input": user_input,
             "memory": {},
             "task": task or {},
-            "goal": goal or {},
             "state": state or {}
         }
 
@@ -62,6 +61,7 @@ class ContextBuilder:
 
         return context
 
+
     def build_prompt_context(
         self,
         context
@@ -70,6 +70,7 @@ class ContextBuilder:
             "role": "assistant_secretary",
             "context": context
         }
+
 
     def merge(
         self,

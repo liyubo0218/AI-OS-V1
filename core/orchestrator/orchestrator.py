@@ -4,6 +4,7 @@ from core.task.scheduler import TaskScheduler
 from core.task.executor import TaskExecutor
 from core.mobile.action_mapper import ActionMapper
 from core.mobile.mobile_gateway import MobileGateway
+from core.time.time_parser import TimeParser
 
 class Orchestrator:
     """
@@ -60,6 +61,8 @@ class Orchestrator:
                 device=device
             )
         )
+
+        self.time_parser = TimeParser()
 
 
     def process(
@@ -123,8 +126,15 @@ class Orchestrator:
         result["plan"] = plan
 
         if self.task_manager:
-            task = self.task_manager.create_task(
+            time_result = self.time_parser.parse(
                 user_input
+            )
+
+            task = self.task_manager.create_task(
+                user_input,
+                deadline=time_result.get(
+                    "deadline"
+                )
             )
 
             task_data = task.to_dict()

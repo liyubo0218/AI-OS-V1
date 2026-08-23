@@ -19,6 +19,7 @@ from core.interface.api import AIOSAPI
 
 from core.event.event_bus import EventBus
 from core.proactive.proactive_engine import ProactiveEngine
+from core.confirmation.confirmation_manager import ConfirmationManager
 from core.goal.goal_manager import GoalManager
 from core.goal.goal_monitor import GoalMonitor
 from core.goal.goal_insight import GoalInsight
@@ -53,6 +54,8 @@ class Bootstrap:
         goal_insight = GoalInsight()
 
         proactive_engine = ProactiveEngine()
+
+        confirmation_manager = ConfirmationManager()
 
 
         memory = MemoryService()
@@ -148,6 +151,8 @@ class Bootstrap:
             "goal_insight": goal_insight,
 
             "proactive_engine": proactive_engine,
+
+            "confirmation_manager": confirmation_manager,
 
             "brain": brain,
 

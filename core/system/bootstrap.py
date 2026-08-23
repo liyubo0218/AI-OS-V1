@@ -18,6 +18,7 @@ from core.runtime.runtime import Runtime
 from core.interface.api import AIOSAPI
 
 from core.event.event_bus import EventBus
+from core.proactive.proactive_engine import ProactiveEngine
 from core.goal.goal_manager import GoalManager
 from core.goal.goal_monitor import GoalMonitor
 from core.goal.goal_insight import GoalInsight
@@ -50,6 +51,8 @@ class Bootstrap:
         )
 
         goal_insight = GoalInsight()
+
+        proactive_engine = ProactiveEngine()
 
 
         memory = MemoryService()
@@ -143,6 +146,8 @@ class Bootstrap:
             "goal_monitor": goal_monitor,
 
             "goal_insight": goal_insight,
+
+            "proactive_engine": proactive_engine,
 
             "brain": brain,
 

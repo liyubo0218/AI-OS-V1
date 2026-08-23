@@ -1,23 +1,22 @@
-from core.secretary.intent import IntentAnalyzer
-from core.secretary.planner import SecretaryPlanner
 from core.task.scheduler import TaskScheduler
 from core.task.executor import TaskExecutor
 from core.mobile.action_mapper import ActionMapper
 from core.mobile.mobile_gateway import MobileGateway
 from core.time.time_parser import TimeParser
 
+
 class Orchestrator:
     """
-    AI-OS 总协调器
+    AI-OS 总协调器 V1.5.3
 
     负责：
     - 连接核心模块
     - 编排请求流程
-    - 返回统一结果
+    - 协调 Memory / Brain / Task / Device
 
     不负责：
     - AI推理
-    - 手机执行
+    - 手机控制
     - 记忆学习
     """
 
@@ -35,30 +34,37 @@ class Orchestrator:
         action_mapper=None,
         mobile_gateway=None
     ):
+
+        # 兼容旧组件
         self.secretary = secretary
+        self.intent_analyzer = intent_analyzer
+        self.planner = planner
+
+        # 核心链路
         self.brain = brain
         self.memory = memory
         self.task_manager = task_manager
+
         self.device = device
 
-        self.intent_analyzer = (
-            intent_analyzer or IntentAnalyzer()
-        )
-        self.planner = (
-            planner or SecretaryPlanner()
-        )
         self.scheduler = (
             scheduler or TaskScheduler()
         )
-        self.executor = (
-            executor or TaskExecutor(device)
-        )
+
         self.action_mapper = (
             action_mapper or ActionMapper()
         )
+
         self.mobile_gateway = (
             mobile_gateway or MobileGateway(
                 device=device
+            )
+        )
+
+        self.executor = (
+            executor or TaskExecutor(
+                device=device,
+                mobile_gateway=self.mobile_gateway
             )
         )
 
@@ -69,71 +75,65 @@ class Orchestrator:
         self,
         user_input
     ):
+
         result = {
             "input": user_input
         }
 
 
-        context = {}
+        # 1. Memory Context
+
+        memory_context = {}
 
         if self.memory:
-            context = self.memory.get_memory_context(
-                user_input
-            )
 
-        result["memory"] = context
-
-
-        if self.secretary:
-            result["secretary"] = (
-                self.secretary.process(
-                    user_input,
-                    context
+            memory_context = (
+                self.memory.get_memory_context(
+                    user_input
                 )
             )
 
+        result["memory"] = memory_context
+
+
+
+        # 2. Brain Understanding
+
+        understanding = {}
 
         if self.brain:
-            result["brain"] = (
+
+            understanding = (
                 self.brain.understand(
                     {
                         "user_input": user_input,
-                        "memory": context
+                        "memory": memory_context
                     }
                 )
             )
 
+        result["brain"] = understanding
+
+
+
+        # 3. Task Creation
+
+        task_data = None
 
         if self.task_manager:
-            task = self.task_manager.create_task(
-                user_input
+
+            time_result = (
+                self.time_parser.parse(
+                    user_input
+                )
             )
 
-            result["task"] = task.to_dict()
-
-
-
-        intent_result = self.intent_analyzer.analyze(
-            user_input
-        )
-
-        result["intent"] = intent_result
-
-        plan = self.planner.plan(
-            intent_result
-        )
-
-        result["plan"] = plan
-
-        if self.task_manager:
-            time_result = self.time_parser.parse(
-                user_input
-            )
-
-            task = self.task_manager.create_task(
-                user_input,
-                deadline=time_result.get(
-                    "deadline"
+            task = (
+                self.task_manager.create_task(
+                    user_input,
+                    deadline=time_result.get(
+                        "deadline"
+                    )
                 )
             )
 
@@ -141,19 +141,48 @@ class Orchestrator:
 
             result["task"] = task_data
 
-            schedule = self.scheduler.schedule(
-                task_data
+
+
+        # 4. Schedule
+
+        if task_data:
+
+            result["schedule"] = (
+                self.scheduler.schedule(
+                    task_data
+                )
             )
 
-            result["schedule"] = schedule
 
-            execution = self.executor.execute(
+
+        # 5. Action Mapping
+
+        action = (
+            self.action_mapper.map_action(
+                "notification",
+                {
+                    "task": task_data
+                }
+            )
+        )
+
+        result["action"] = action
+
+
+
+        # 6. Execute
+
+        execution = (
+            self.executor.execute(
                 {
                     "action": "notification",
                     "task": task_data
                 }
             )
+        )
 
-            result["execution"] = execution
+        result["execution"] = execution
+
+
 
         return result

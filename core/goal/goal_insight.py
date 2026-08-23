@@ -35,3 +35,48 @@ class GoalInsight:
             "status": goal.status,
             "suggestion": suggestion
         }
+
+    def analyze_lifecycle(
+        self,
+        lifecycle
+    ):
+        """
+        分析 GoalLifecycleMonitor 输出
+
+        负责：
+        - 解释生命周期状态
+
+        不负责：
+        - 修改目标
+        - 创建任务
+        - 执行任务
+        """
+
+        status = lifecycle.get(
+            "status"
+        )
+
+        goal_name = lifecycle.get(
+            "title",
+            lifecycle.get(
+                "goal_id"
+            )
+        )
+
+        if status == "stalled":
+            return {
+                "goal": goal_name,
+                "state": "stalled",
+                "suggestion": lifecycle.get(
+                    "suggestion",
+                    "目标可能停滞"
+                )
+            }
+
+        return {
+            "goal": lifecycle.get(
+                "title"
+            ),
+            "state": status,
+            "suggestion": None
+        }

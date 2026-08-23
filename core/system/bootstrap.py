@@ -23,6 +23,7 @@ from core.confirmation.confirmation_manager import ConfirmationManager
 from core.planner.task_planner import TaskPlanner
 from core.execution.execution_guard import ExecutionGuard
 from core.monitor.execution_monitor import ExecutionMonitor
+from core.goal.lifecycle_monitor import GoalLifecycleMonitor
 from core.goal.goal_manager import GoalManager
 from core.goal.goal_monitor import GoalMonitor
 from core.goal.goal_insight import GoalInsight
@@ -55,6 +56,8 @@ class Bootstrap:
         )
 
         goal_insight = GoalInsight()
+
+        goal_lifecycle_monitor = GoalLifecycleMonitor()
 
         proactive_engine = ProactiveEngine()
 
@@ -158,6 +161,7 @@ class Bootstrap:
             "goal_monitor": goal_monitor,
 
             "goal_insight": goal_insight,
+            "goal_lifecycle_monitor": goal_lifecycle_monitor,
 
             "proactive_engine": proactive_engine,
 

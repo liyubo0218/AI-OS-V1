@@ -18,7 +18,10 @@ class ProactiveEngine:
     ):
         if insight.get(
             "state"
-        ) == "stagnant":
+        ) in [
+            "stalled",
+            "stagnant"
+        ]:
 
             return {
                 "need_attention": True,

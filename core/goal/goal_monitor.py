@@ -1,72 +1,61 @@
-from .goal_model import GoalModel
-
-
 class GoalMonitor:
+    """
+    AI-OS Goal 目标监控器
 
+    负责：
+    - 检查目标状态
+    - 返回目标监控结果
 
-    def __init__(self):
+    不负责：
+    - 保存目标
+    - 执行任务
+    - AI推理
+    """
 
-        self.goals = {}
-
-
-    def create_goal(
+    def __init__(
         self,
-        goal_id,
-        description
+        goal_manager=None
     ):
-
-        self.goals[goal_id] = GoalModel(
-            description
-        )
+        self.goal_manager = goal_manager
 
 
-        return {
-            "status": "created"
-        }
-
-
-    def update_goal(
+    def check_goal(
         self,
-        goal_id,
-        status
+        goal_id
     ):
+        if not self.goal_manager:
+            return {
+                "status": "failed",
+                "error": "goal_manager_unavailable"
+            }
 
-        goal = self.goals.get(
+        goal = self.goal_manager.get_goal(
             goal_id
         )
 
-
         if goal is None:
-
             return {
                 "status": "failed",
                 "error": "goal_not_found"
             }
 
-
-        goal.update(
-            status
-        )
-
-
         return {
-            "status": "updated"
+            "status": "checked",
+            "goal": goal.to_dict()
         }
 
 
-    def get_goal(
-        self,
-        goal_id
+    def check_all(
+        self
     ):
+        if not self.goal_manager:
+            return []
 
-        goal = self.goals.get(
-            goal_id
-        )
+        results = []
 
+        for goal_id in self.goal_manager.get_goals():
+            results.append(
+                self.check_goal(goal_id)
+            )
 
-        if goal is None:
-
-            return None
-
-
-        return goal.to_dict()
+        return results

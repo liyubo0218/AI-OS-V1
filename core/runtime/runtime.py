@@ -49,10 +49,12 @@ class Runtime:
             self.start()
 
         if not self.orchestrator:
-            return {
-                "status": "error",
-                "message": "orchestrator unavailable"
-            }
+            from core.system.error import ErrorResponse
+
+            return ErrorResponse.create(
+                "orchestrator_unavailable",
+                "orchestrator unavailable"
+            )
 
         return self.orchestrator.process(
             user_input

@@ -24,10 +24,12 @@ class AIOSAPI:
         request
     ):
         if not self.runtime:
-            return {
-                "status": "error",
-                "message": "runtime unavailable"
-            }
+            from core.system.error import ErrorResponse
+
+            return ErrorResponse.create(
+                "runtime_unavailable",
+                "runtime unavailable"
+            )
 
         user_input = request.get(
             "user_input",

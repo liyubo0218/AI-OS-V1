@@ -1,11 +1,15 @@
+from core.memory.memory_record import MemoryRecord
+
+
 class MemoryService:
     """
-    AI-OS Memory 统一服务入口
+    AI-OS Memory v2 统一服务入口
 
     负责：
-    - 统一访问用户记忆
-    - 提供秘书上下文
-    - 管理 Profile 接口
+    - 用户记忆访问
+    - Profile管理
+    - MemoryRecord管理
+    - 上下文组合
 
     不负责：
     - AI推理
@@ -22,6 +26,7 @@ class MemoryService:
         self.profile = profile
         self.user_memory = user_memory
         self.task_memory = task_memory
+        self.records = []
 
 
     def save_profile(
@@ -47,6 +52,53 @@ class MemoryService:
             return {}
 
         return self.profile.get_profile()
+
+
+    def remember(
+        self,
+        memory_type,
+        content,
+        importance=0.5
+    ):
+        record = MemoryRecord(
+            memory_type,
+            content,
+            importance
+        )
+
+        self.records.append(
+            record
+        )
+
+        return record
+
+
+    def recall(
+        self,
+        keyword=""
+    ):
+        results = []
+
+        for record in self.records:
+            if keyword in str(record.content):
+                results.append(
+                    record.to_dict()
+                )
+
+        return results
+
+
+    def get_context(
+        self,
+        query=""
+    ):
+        return {
+            "profile": self.get_profile(),
+            "records": self.recall(query),
+            "tasks": self.task_memory.get_tasks()
+            if self.task_memory
+            else {}
+        }
 
 
     def get_memory_context(

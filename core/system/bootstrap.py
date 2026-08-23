@@ -20,6 +20,7 @@ from core.interface.api import AIOSAPI
 from core.event.event_bus import EventBus
 from core.goal.goal_manager import GoalManager
 from core.goal.goal_monitor import GoalMonitor
+from core.goal.goal_insight import GoalInsight
 
 
 class Bootstrap:
@@ -47,6 +48,8 @@ class Bootstrap:
         goal_monitor = GoalMonitor(
             goal_manager
         )
+
+        goal_insight = GoalInsight()
 
 
         memory = MemoryService()
@@ -138,6 +141,8 @@ class Bootstrap:
             "goal_manager": goal_manager,
 
             "goal_monitor": goal_monitor,
+
+            "goal_insight": goal_insight,
 
             "brain": brain,
 

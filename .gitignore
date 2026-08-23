@@ -22,3 +22,6 @@ __pycache__/
 # AI-OS version backup files
 *.v16.1.bak
 *.v16.3.bak
+
+# AI-OS version backup files
+*.v17.1.bak

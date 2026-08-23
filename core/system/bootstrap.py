@@ -8,6 +8,7 @@ from core.memory.memory_index import MemoryIndex
 
 from core.task.task_manager import TaskManager
 from core.device.mobile_adapter import MobileAdapter
+from core.mobile.mobile_gateway import MobileGateway
 
 from core.orchestrator.orchestrator import Orchestrator
 
@@ -38,6 +39,8 @@ class Bootstrap:
 
         memory = MemoryService()
 
+        event_bus = EventBus()
+
         brain = Brain()
 
         secretary = SecretaryCore(
@@ -49,6 +52,11 @@ class Bootstrap:
         )
 
         device = MobileAdapter()
+
+        
+        mobile_gateway = MobileGateway(
+            device=device
+        )
 
 
         orchestrator = Orchestrator(
@@ -77,6 +85,7 @@ class Bootstrap:
             "secretary": secretary,
             "task_manager": task_manager,
             "device": device,
+            "mobile_gateway": mobile_gateway,
             "orchestrator": orchestrator,
             "runtime": runtime,
             "api": api

@@ -14,9 +14,11 @@ class TaskExecutor:
 
     def __init__(
         self,
-        device=None
+        device=None,
+        mobile_gateway=None
     ):
         self.device = device
+        self.mobile_gateway = mobile_gateway
         self.history = []
 
 
@@ -35,7 +37,31 @@ class TaskExecutor:
         }
 
 
-        if self.device:
+        if self.mobile_gateway:
+            try:
+                response = self.mobile_gateway.execute(
+                    {
+                        "channel": "device",
+                        "payload": {
+                            "action": action,
+                            "task": task
+                        }
+                    }
+                )
+
+                result = {
+                    "status": "success",
+                    "action": action,
+                    "result": response
+                }
+
+            except Exception as error:
+                result = {
+                    "status": "error",
+                    "message": str(error)
+                }
+
+        elif self.device:
 
             try:
                 response = self.device.execute(

@@ -1,16 +1,31 @@
-from config.settings import AIOSSettings
+from core.system.config import ConfigManager
 
 
+def test_config_set_get():
 
-settings = AIOSSettings()
+    config = ConfigManager()
+
+    config.set(
+        "mode",
+        "beta"
+    )
+
+    assert (
+        config.get("mode")
+        == "beta"
+    )
 
 
+def test_config_default():
 
-print("AI-OS Config Ready")
+    config = ConfigManager()
 
+    value = config.get(
+        "unknown",
+        "default"
+    )
 
-
-print(
-    settings.to_dict()
-)
-
+    assert (
+        value
+        == "default"
+    )

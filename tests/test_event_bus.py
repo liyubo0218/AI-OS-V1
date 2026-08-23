@@ -1,61 +1,54 @@
-from core.event import (
-    Event,
-    EventBus
-)
+from core.event.event import Event
+from core.event.event_bus import EventBus
 
 
-def test_event_bus():
+def test_event_publish():
 
     bus = EventBus()
 
-
-    result = []
-
-
-    def handler(event):
-
-        result.append(
-            event.payload["value"]
-        )
-
-        return "received"
-
-
-    bus.subscribe(
-        "test_event",
-        handler
-    )
-
-
     event = Event(
-        "test_event",
+        "task.created",
         {
-            "value": 100
+            "task": "test"
         }
     )
 
+    result = bus.publish(event)
 
-    publish_result = bus.publish(
-        event
+    assert result["status"] == "published"
+
+    assert bus.queue.size() == 1
+
+
+def test_event_dispatch():
+
+    bus = EventBus()
+
+    received = []
+
+    def handler(event):
+        received.append(
+            event.payload
+        )
+        return "ok"
+
+
+    bus.subscribe(
+        "task.created",
+        handler
     )
 
-
-    assert publish_result["status"] == "published"
-
-
-    dispatch_result = bus.dispatch()
-
-
-    assert dispatch_result["status"] == "completed"
-
-    assert result[0] == 100
-
-
-    print(
-        "Event Bus PASS"
+    event = Event(
+        "task.created",
+        {
+            "id": 1
+        }
     )
 
+    bus.publish(event)
 
-if __name__ == "__main__":
+    result = bus.dispatch()
 
-    test_event_bus()
+    assert result["status"] == "completed"
+
+    assert received[0]["id"] == 1

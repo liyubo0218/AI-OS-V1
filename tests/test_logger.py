@@ -1,28 +1,44 @@
-from logging.logger import AIOSLogger
+from core.system.logger import Logger
 
 
+def test_logger_write():
 
-logger = AIOSLogger()
+    logger = Logger()
 
+    logger.write(
+        "AI-OS started"
+    )
 
+    logs = logger.get_logs()
 
-print("AI-OS Logger Ready")
+    assert len(logs) == 1
 
-
-
-logger.info(
-    "System Started"
-)
-
-
-
-logger.info(
-    "Task Completed"
-)
+    assert (
+        logs[0]["message"]
+        == "AI-OS started"
+    )
 
 
+def test_logger_multiple_logs():
 
-logger.error(
-    "Test Error"
-)
+    logger = Logger()
 
+    logger.write(
+        "request received"
+    )
+
+    logger.write(
+        "task created"
+    )
+
+    logs = logger.get_logs()
+
+    assert len(logs) == 2
+
+    assert (
+        "time" in logs[0]
+    )
+
+    assert (
+        "message" in logs[1]
+    )

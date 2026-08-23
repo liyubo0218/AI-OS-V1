@@ -1,43 +1,49 @@
-from core.context.context_manager import ContextManager
-from core.brain.brain import Brain
-from core.planner.planner import Planner
-from execution.execution_engine import ExecutionEngine
-from agents.agent_manager import AgentManager
-from agents.demo_agent import DemoAgent
 from core.orchestrator.orchestrator import Orchestrator
 
 
-context_manager = ContextManager()
+def test_orchestrator_task_flow():
 
-brain = Brain()
+    orchestrator = Orchestrator()
 
-planner = Planner()
+    result = orchestrator.process(
+        "提醒我明天上午9点开会"
+    )
 
-execution_engine = ExecutionEngine()
+    assert (
+        result["intent"]["intent"]
+        == "create_task"
+    )
 
-agent_manager = AgentManager()
-
-agent_manager.register_agent(
-    DemoAgent()
-)
-
-
-orchestrator = Orchestrator(
-    context_manager,
-    brain,
-    planner,
-    execution_engine,
-    agent_manager
-)
+    assert (
+        result["plan"]["status"]
+        == "planned"
+    )
 
 
-result = orchestrator.run(
-    "帮我测试AI-OS"
-)
+def test_orchestrator_unknown_input():
+
+    orchestrator = Orchestrator()
+
+    result = orchestrator.process(
+        "随便聊聊天"
+    )
+
+    assert (
+        result["intent"]["intent"]
+        == "unknown"
+    )
 
 
-print("================")
-print("AI-OS Workflow Completed")
-print("================")
+def test_orchestrator_result_structure():
 
-print(result)
+    orchestrator = Orchestrator()
+
+    result = orchestrator.process(
+        "测试"
+    )
+
+    assert "input" in result
+
+    assert "intent" in result
+
+    assert "plan" in result

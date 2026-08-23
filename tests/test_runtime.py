@@ -1,39 +1,53 @@
-from runtime.runtime_manager import RuntimeManager
+from core.runtime.runtime import Runtime
 
 
-runtime = RuntimeManager()
+def test_runtime_start_stop():
 
+    runtime = Runtime()
 
-print("Initialize:")
-
-print(
-    runtime.initialize(
-        [
-            "ContextManager",
-            "Brain",
-            "Planner",
-            "ExecutionEngine"
-        ]
+    assert (
+        runtime.get_status()["status"]
+        == "stopped"
     )
-)
+
+    result = runtime.start()
+
+    assert (
+        result["status"]
+        == "running"
+    )
+
+    result = runtime.stop()
+
+    assert (
+        result["status"]
+        == "stopped"
+    )
 
 
-print("Start:")
 
-print(
-    runtime.start()
-)
+def test_runtime_without_orchestrator():
+
+    runtime = Runtime()
+
+    result = runtime.handle(
+        "test"
+    )
+
+    assert (
+        result["status"]
+        == "error"
+    )
 
 
-print("Health Check:")
 
-print(
-    runtime.health_check()
-)
+def test_runtime_alias():
 
+    from core.runtime.runtime import RuntimeCore
 
-print("Stop:")
+    runtime = RuntimeCore()
 
-print(
-    runtime.stop()
-)
+    assert isinstance(
+        runtime,
+        Runtime
+    )

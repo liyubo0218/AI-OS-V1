@@ -32,7 +32,8 @@ class Orchestrator:
         scheduler=None,
         executor=None,
         action_mapper=None,
-        mobile_gateway=None
+        mobile_gateway=None,
+        execution_monitor=None
     ):
 
         # 兼容旧组件
@@ -44,6 +45,7 @@ class Orchestrator:
         self.brain = brain
         self.memory = memory
         self.task_manager = task_manager
+        self.execution_monitor = execution_monitor
 
         self.device = device
 
@@ -181,6 +183,13 @@ class Orchestrator:
             result["action"] = action
 
 
+            if self.execution_monitor:
+
+                self.execution_monitor.create_record(
+                    str(result["task_index"]),
+                    "running"
+                )
+
             execution = (
                 self.executor.execute(
                     {
@@ -191,6 +200,26 @@ class Orchestrator:
             )
 
             result["execution"] = execution
+
+            if self.execution_monitor:
+
+                if execution.get(
+                    "execution_status"
+                ) == "completed":
+
+                    self.execution_monitor.update_status(
+                        str(result["task_index"]),
+                        "completed"
+                    )
+
+                elif execution.get(
+                    "execution_status"
+                ) == "failed":
+
+                    self.execution_monitor.update_status(
+                        str(result["task_index"]),
+                        "failed"
+                    )
 
             if self.task_manager and "task_index" in result:
 

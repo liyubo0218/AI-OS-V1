@@ -22,6 +22,7 @@ from core.proactive.proactive_engine import ProactiveEngine
 from core.confirmation.confirmation_manager import ConfirmationManager
 from core.planner.task_planner import TaskPlanner
 from core.execution.execution_guard import ExecutionGuard
+from core.monitor.execution_monitor import ExecutionMonitor
 from core.goal.goal_manager import GoalManager
 from core.goal.goal_monitor import GoalMonitor
 from core.goal.goal_insight import GoalInsight
@@ -62,6 +63,7 @@ class Bootstrap:
         task_planner = TaskPlanner()
 
         execution_guard = ExecutionGuard()
+        execution_monitor = ExecutionMonitor()
 
 
         memory = MemoryService()
@@ -130,7 +132,8 @@ class Bootstrap:
             memory=memory,
             task_manager=task_manager,
             device=device,
-            mobile_gateway=mobile_gateway
+            mobile_gateway=mobile_gateway,
+            execution_monitor=execution_monitor
         )
 
 
@@ -163,6 +166,7 @@ class Bootstrap:
             "task_planner": task_planner,
 
             "execution_guard": execution_guard,
+            "execution_monitor": execution_monitor,
 
             "brain": brain,
 

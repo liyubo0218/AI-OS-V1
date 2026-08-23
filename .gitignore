@@ -8,3 +8,8 @@ __pycache__/
 .DS_Store
 
 *.json
+
+# AI-OS backup files
+*.v153.bak
+*.beta.bak
+*.v151.bak

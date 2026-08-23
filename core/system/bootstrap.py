@@ -21,6 +21,7 @@ from core.event.event_bus import EventBus
 from core.proactive.proactive_engine import ProactiveEngine
 from core.confirmation.confirmation_manager import ConfirmationManager
 from core.planner.task_planner import TaskPlanner
+from core.execution.execution_guard import ExecutionGuard
 from core.goal.goal_manager import GoalManager
 from core.goal.goal_monitor import GoalMonitor
 from core.goal.goal_insight import GoalInsight
@@ -59,6 +60,8 @@ class Bootstrap:
         confirmation_manager = ConfirmationManager()
 
         task_planner = TaskPlanner()
+
+        execution_guard = ExecutionGuard()
 
 
         memory = MemoryService()
@@ -158,6 +161,8 @@ class Bootstrap:
             "confirmation_manager": confirmation_manager,
 
             "task_planner": task_planner,
+
+            "execution_guard": execution_guard,
 
             "brain": brain,
 

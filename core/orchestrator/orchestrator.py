@@ -120,7 +120,12 @@ class Orchestrator:
 
         task_data = None
 
-        if self.task_manager:
+        # V1.5.4 保持任务闭环
+        # 由 Orchestrator 负责进入任务流程
+        task_required = True
+
+
+        if self.task_manager and task_required:
 
             time_result = (
                 self.time_parser.parse(
@@ -155,33 +160,32 @@ class Orchestrator:
 
 
 
-        # 5. Action Mapping
+        # 5. Action Mapping + Execute
 
-        action = (
-            self.action_mapper.map_action(
-                "notification",
-                {
-                    "task": task_data
-                }
+        if task_data:
+
+            action = (
+                self.action_mapper.map_action(
+                    "notification",
+                    {
+                        "task": task_data
+                    }
+                )
             )
-        )
 
-        result["action"] = action
-
+            result["action"] = action
 
 
-        # 6. Execute
-
-        execution = (
-            self.executor.execute(
-                {
-                    "action": "notification",
-                    "task": task_data
-                }
+            execution = (
+                self.executor.execute(
+                    {
+                        "action": "notification",
+                        "task": task_data
+                    }
+                )
             )
-        )
 
-        result["execution"] = execution
+            result["execution"] = execution
 
 
 

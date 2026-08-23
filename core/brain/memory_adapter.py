@@ -5,11 +5,15 @@ class MemoryContextAdapter:
 
     def __init__(
         self,
+        memory_service=None,
         context_builder=None
     ):
+
         self.context_builder = (
             context_builder
-            or ContextBuilder()
+            or ContextBuilder(
+                memory_service
+            )
         )
 
 
@@ -19,6 +23,7 @@ class MemoryContextAdapter:
     ):
 
         try:
+
             result = self.context_builder.build_context(
                 query
             )

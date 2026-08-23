@@ -13,3 +13,8 @@ __pycache__/
 *.v153.bak
 *.beta.bak
 *.v151.bak
+
+# AI-OS version backup files
+*.v154.bak
+*.v154.1.bak
+*.v154.2.bak

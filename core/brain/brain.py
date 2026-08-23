@@ -6,12 +6,15 @@ class Brain:
 
     def __init__(
         self,
-        llm_gateway=None
+        llm_gateway=None,
+        memory_service=None
     ):
 
         self.llm_gateway = llm_gateway
         self.context_adapter = BrainAdapter()
-        self.memory_adapter = MemoryContextAdapter()
+        self.memory_adapter = MemoryContextAdapter(
+            memory_service=memory_service
+        )
 
 
     def understand(

@@ -31,6 +31,11 @@ class TaskExecutor:
             "unknown"
         )
 
+        task_payload = task.get(
+            "task",
+            {}
+        )
+
         result = {
             "status": "failed",
             "action": action
@@ -44,7 +49,7 @@ class TaskExecutor:
                         "channel": "device",
                         "payload": {
                             "action": action,
-                            "task": task
+                            "task": task_payload
                         }
                     }
                 )

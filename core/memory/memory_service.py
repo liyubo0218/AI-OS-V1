@@ -79,11 +79,40 @@ class MemoryService:
     ):
         results = []
 
+        keyword = str(
+            keyword
+        )
+
         for record in self.records:
-            if keyword in str(record.content):
+
+            content = str(
+                record.content
+            )
+
+            # 完整匹配
+            if keyword in content:
                 results.append(
                     record.to_dict()
                 )
+                continue
+
+            # 中文关键词匹配
+            keywords = [
+                "会议",
+                "安排",
+                "上午",
+                "下午",
+                "喜欢",
+                "习惯",
+                "偏好"
+            ]
+
+            for word in keywords:
+                if word in keyword and word in content:
+                    results.append(
+                        record.to_dict()
+                    )
+                    break
 
         return results
 
@@ -95,6 +124,16 @@ class MemoryService:
         return self.recall(
             keyword
         )
+
+
+    def retrieve(
+        self
+    ):
+        return [
+            record.to_dict()
+            for record in self.records
+        ]
+
 
     def get_context(
         self,

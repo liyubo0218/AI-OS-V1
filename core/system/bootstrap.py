@@ -66,7 +66,8 @@ class Bootstrap:
         # =====================
 
         brain = Brain(
-            llm_gateway=llm_gateway
+            llm_gateway=llm_gateway,
+            memory_service=memory
         )
 
 

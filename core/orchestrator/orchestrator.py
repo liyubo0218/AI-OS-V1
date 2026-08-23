@@ -142,8 +142,13 @@ class Orchestrator:
                 )
             )
 
+            task_index = len(
+                self.task_manager.get_tasks()
+            ) - 1
+
             task_data = task.to_dict()
 
+            result["task_index"] = task_index
             result["task"] = task_data
 
 
@@ -186,6 +191,26 @@ class Orchestrator:
             )
 
             result["execution"] = execution
+
+            if self.task_manager and "task_index" in result:
+
+                if execution.get(
+                    "execution_status"
+                ) == "completed":
+
+                    self.task_manager.update_task_status(
+                        result["task_index"],
+                        "completed"
+                    )
+
+                elif execution.get(
+                    "execution_status"
+                ) == "failed":
+
+                    self.task_manager.update_task_status(
+                        result["task_index"],
+                        "failed"
+                    )
 
 
 

@@ -56,6 +56,7 @@ class TaskExecutor:
 
                 result = {
                     "status": "success",
+                    "execution_status": "completed",
                     "action": action,
                     "result": response
                 }
@@ -63,6 +64,7 @@ class TaskExecutor:
             except Exception as error:
                 result = {
                     "status": "error",
+                    "execution_status": "failed",
                     "message": str(error)
                 }
 
@@ -76,6 +78,7 @@ class TaskExecutor:
 
                 result = {
                     "status": "success",
+                    "execution_status": "completed",
                     "action": action,
                     "result": response
                 }
@@ -84,6 +87,7 @@ class TaskExecutor:
 
                 result = {
                     "status": "error",
+                    "execution_status": "failed",
                     "message": str(error)
                 }
 
@@ -92,6 +96,7 @@ class TaskExecutor:
 
             result = {
                 "status": "success",
+                "execution_status": "completed",
                 "action": action,
                 "mode": "simulation"
             }

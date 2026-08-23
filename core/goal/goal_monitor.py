@@ -1,15 +1,15 @@
 class GoalMonitor:
     """
-    AI-OS Goal 目标监控器
+    AI-OS Goal Monitor
 
     负责：
     - 检查目标状态
-    - 返回目标监控结果
+    - 输出目标分析
 
     不负责：
-    - 保存目标
+    - 创建任务
     - 执行任务
-    - AI推理
+    - 修改目标
     """
 
     def __init__(
@@ -21,27 +21,26 @@ class GoalMonitor:
 
     def check_goal(
         self,
-        goal_id
+        goal
     ):
-        if not self.goal_manager:
-            return {
-                "status": "failed",
-                "error": "goal_manager_unavailable"
-            }
+        if goal.progress >= 100:
+            state = "completed"
+            message = "目标已完成"
 
-        goal = self.goal_manager.get_goal(
-            goal_id
-        )
+        elif goal.progress > 0:
+            state = "progressing"
+            message = "目标正在推进"
 
-        if goal is None:
-            return {
-                "status": "failed",
-                "error": "goal_not_found"
-            }
+        else:
+            state = "started"
+            message = "目标刚开始"
 
         return {
-            "status": "checked",
-            "goal": goal.to_dict()
+            "goal": goal.name,
+            "state": state,
+            "progress": goal.progress,
+            "status": goal.status,
+            "message": message
         }
 
 
@@ -53,9 +52,11 @@ class GoalMonitor:
 
         results = []
 
-        for goal_id in self.goal_manager.get_goals():
+        for goal in self.goal_manager.goals:
             results.append(
-                self.check_goal(goal_id)
+                self.check_goal(
+                    goal
+                )
             )
 
         return results

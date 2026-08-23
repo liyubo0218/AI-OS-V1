@@ -1,11 +1,9 @@
-import uuid
-
-from .goal_model import GoalModel
+from .goal import Goal
 
 
 class GoalManager:
     """
-    AI-OS Goal 管理中心
+    AI-OS Goal Manager
 
     负责：
     - 创建目标
@@ -14,65 +12,63 @@ class GoalManager:
     - 更新目标
 
     不负责：
-    - 目标监控
     - 任务执行
-    - AI推理
+    - 自动规划
     """
 
     def __init__(
         self
     ):
-        self.goals = {}
-
+        self.goals = []
 
     def create_goal(
         self,
-        title,
+        name,
+        description="",
         deadline=None
     ):
-        goal_id = str(
-            uuid.uuid4()
-        )
-
-        goal = GoalModel(
-            title,
+        goal = Goal(
+            name,
+            description,
             deadline
         )
 
-        self.goals[goal_id] = goal
+        self.goals.append(
+            goal
+        )
 
         return goal
 
+    def get_goals(
+        self
+    ):
+        return [
+            goal.to_dict()
+            for goal in self.goals
+        ]
 
     def get_goal(
         self,
         goal_id
     ):
-        return self.goals.get(
-            goal_id
-        )
+        for goal in self.goals:
+            if goal.id == goal_id:
+                return goal
 
+        return None
 
-    def get_goals(
-        self
-    ):
-        return self.goals
-
-
-    def update_goal(
+    def update_progress(
         self,
         goal_id,
-        status
+        progress
     ):
         goal = self.get_goal(
             goal_id
         )
 
-        if goal is None:
+        if not goal:
             return False
 
-        goal.update(
-            status
+        return goal.update_progress(
+            progress
         )
-
-        return True

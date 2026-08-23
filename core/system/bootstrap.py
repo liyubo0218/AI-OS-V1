@@ -18,6 +18,8 @@ from core.runtime.runtime import Runtime
 from core.interface.api import AIOSAPI
 
 from core.event.event_bus import EventBus
+from core.goal.goal_manager import GoalManager
+from core.goal.goal_monitor import GoalMonitor
 
 
 class Bootstrap:
@@ -39,6 +41,13 @@ class Bootstrap:
 
 
     def create(self):
+
+        goal_manager = GoalManager()
+
+        goal_monitor = GoalMonitor(
+            goal_manager
+        )
+
 
         memory = MemoryService()
 
@@ -125,6 +134,10 @@ class Bootstrap:
             "memory": memory,
 
             "event_bus": event_bus,
+
+            "goal_manager": goal_manager,
+
+            "goal_monitor": goal_monitor,
 
             "brain": brain,
 

@@ -33,3 +33,48 @@ class TaskPlanner:
                 "status": "pending"
             }
         }
+
+
+    def commit_task(
+        self,
+        task_manager,
+        confirmation,
+        task_plan
+    ):
+        if not confirmation.get(
+            "confirmed",
+            False
+        ):
+            return {
+                "status": "rejected",
+                "task": None
+            }
+
+        if task_plan.get(
+            "status"
+        ) != "ready":
+            return {
+                "status": "invalid",
+                "task": None
+            }
+
+        task_data = task_plan.get(
+            "task",
+            {}
+        )
+
+        task = task_manager.create_task(
+            task_data.get(
+                "title",
+                ""
+            ),
+            task_data.get(
+                "description",
+                ""
+            )
+        )
+
+        return {
+            "status": "created",
+            "task": task.to_dict()
+        }
